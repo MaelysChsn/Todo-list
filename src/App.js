@@ -17,8 +17,10 @@ function App() {
     console.log(list);
   }
 
-  const handleListRemove = (index) => {
-    setList(list.splice(index, 1));
+  function handleRemove(id) {
+    console.log(id);
+    const newList = list.filter((item, i) => i !== id);
+    setList(newList);
   }
 
 
@@ -42,7 +44,7 @@ function App() {
         {
           list.map((item, index) => {
             return (
-              <Card title={item.title} content={item.content} key={index} index={index} setListRemove={handleListRemove}/>
+              <Card title={item.title} content={item.content} key={index} index={index} onRemove={handleRemove}/>
             )
           })
         }
