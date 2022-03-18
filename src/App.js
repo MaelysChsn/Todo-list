@@ -8,20 +8,36 @@ import Card from './card';
 
 function App() {
   const [list, setList] = useState([]);
-
   const[title, setTitle] = useState([]);
   const[content, setContent] = useState([]);
+  const[count, setCount] = useState(0);
+
 
   const handleChange = () => {
-    setList([...list, {title: title, content: content}]);
-    console.log(list);
+    if(count >= 5){
+      alert('Fais tes autres tâches avant d\'en ajouter d\'autre mec !')
+    }else{
+      setList([...list, {title: title, content: content, checked: false}]);
+      setCount(count + 1);
+    }
   }
 
   function handleRemove(id) {
-    console.log(id);
     const newList = list.filter((item, i) => i !== id);
     setList(newList);
   }
+
+  function handleChecked(id, value) {
+    const newArray = [...list];
+    newArray[id].checked = value;
+    setList(newArray);
+    value === true ? setCount(count - 1) : setCount(count + 1);
+  }
+
+  useEffect(() => {
+    setCount(count);
+  }, [list, count]);
+
 
 
   return (
@@ -40,11 +56,11 @@ function App() {
         </div>
 
 
-        <div className="c-list">
+        <div className="c-list container">
         {
           list.map((item, index) => {
             return (
-              <Card title={item.title} content={item.content} key={index} index={index} onRemove={handleRemove}/>
+              <Card title={item.title} content={item.content} key={index} index={index} onRemove={handleRemove} onChecked={handleChecked} checked={item.checked}/>
             )
           })
         }
